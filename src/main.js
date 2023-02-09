@@ -111,13 +111,18 @@ app.patch('/clients/:id', bodyParser, validateClient, (request, response) => {
   response.send(client)
 })
 
-app.post('/clients/:id/orders', bodyParser, (request, response) => {
-  const clientId = request.client.id
+app.post(
+  '/clients/:id/orders',
+  bodyParser,
+  validateClient,
+  (request, response) => {
+    const clientId = request.client.id
 
-  const order = { ...request.body, clientId }
-  database.orders.push(order)
-  response.send(order)
-})
+    const order = { ...request.body, clientId }
+    database.orders.push(order)
+    response.send(order)
+  },
+)
 
 // 3. Supprimer un order specifique
 
@@ -179,6 +184,20 @@ function validateOrder(request, response, next) {
 
   request.order = order
   next()
+}
+
+function validateResource(name) {
+  return function (request, response, next) {
+    const id = parseInt(request.params.id)
+    const ressource = database[name].find((ressource) => ressource.id === id)
+
+    if (!ressource) {
+      return response.status(404).send(`${name} not found`)
+    }
+
+    request[name] = ressource
+    next()
+  }
 }
 
 // Modifer un client
