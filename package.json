@@ -2,8 +2,10 @@
   "name": "node-js-crm",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/main.js",
   "scripts": {
+    "start":"node ./src/main.js",
+    "start:dev":"nodemon",
     "format": "prettier --write \"src/**/*.js\"",
     "lint": "eslint \"{src,test}/**/*.js\" --fix",
     "prepare": "husky install"
@@ -20,7 +22,8 @@
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "2.8.4",
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "nodemon": "^2.0.20",
+    "prettier": "2.8.4"
   }
 }

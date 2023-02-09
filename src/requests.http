@@ -1,0 +1,20 @@
+
+### Retrieve all clients
+GET http://localhost:3000/clients
+
+### Retrieve a client by ID
+GET http://localhost:3000/clients/1
+
+
+### Retrieve all orders
+GET http://localhost:3000/orders
+
+### Retrieve an order by id
+GET http://localhost:3000/orders/2
+
+
+
+### Delete client
+DELETE http://localhost:3000/clients/1
+### Delete order
+DELETE http://localhost:3000/orders/1
