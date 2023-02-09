@@ -35,3 +35,45 @@ Content-Type: application/json
       "country": "USA",
       "state": 0
 }
+
+### Create client
+POST http://localhost:3000/clients
+Content-Type: application/json
+
+{
+      "companyName": "Instagram",
+      "firstName": "Jet",
+      "lastName": "Li",
+      "email": "jet.li@ig.us",
+      "phoneNumber": "+15784574845",
+      "address": "Californie",
+      "zipCode": "1001110",
+      "country": "USA",
+      "state": 0
+}
+
+### Partial update
+PATCH http://localhost:3000/clients/1
+Content-Type: application/json
+
+{
+      "companyName": "Soprasteria",
+      "lastName": "Prevot",
+      "email": "jordan.prevot@sopra.com"
+}
+
+
+### Add order for a client
+POST http://localhost:3000/clients/2/orders
+Content-Type: application/json
+
+ {
+    "id": 1,
+    "typePresta": "J2ee expert",
+    "designation": "Dev senior Java",
+    "nbDays": 30,
+    "unitPrice": 600,
+    "totalExcludeTaxe": 18000,
+    "totalWithTaxe": 21600,
+    "state": 0
+  }

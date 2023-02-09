@@ -1,3 +1,4 @@
+const { response } = require('express')
 const express = require('express')
 
 const database = {
@@ -104,9 +105,7 @@ app.get('/clients/:id/orders', (request, response) => {
 app.delete('/clients/:id', (request, response) => {
   const id = parseInt(request.params.id)
   const client = database.clients.find((client) => client.id === id)
-  // undefined
-  // undefined => false
-  // ! false => true
+
   if (!client) {
     return response.status(404).send('Client not found')
   }
@@ -117,6 +116,55 @@ app.delete('/clients/:id', (request, response) => {
 
   clientIds.forEach((id) => database.orders.splice(id, 1))
   response.send(client)
+})
+
+app.post('/clients', bodyParser, (request, response) => {
+  const data = { ...request.body, id: generateRandomId() }
+  database.clients.push(data)
+  response.send('Création effectuée avec succès')
+})
+
+app.patch('/clients/:id', bodyParser, (request, response) => {
+  const id = parseInt(request.params.id)
+  const client = database.clients.find((client) => client.id === id)
+
+  if (!client) {
+    return response.status(404).send('Client not found')
+  }
+
+  for (const attr in request.body) {
+    client[attr] = request.body[attr]
+  }
+
+  response.send(client)
+})
+
+app.patch('/clients/:id', bodyParser, (request, response) => {
+  const id = parseInt(request.params.id)
+  const client = database.clients.find((client) => client.id === id)
+
+  if (!client) {
+    return response.status(404).send('Client not found')
+  }
+
+  for (const attr in request.body) {
+    client[attr] = request.body[attr]
+  }
+
+  response.send(client)
+})
+
+app.post('/clients/:id/orders', bodyParser, (request, response) => {
+  const id = parseInt(request.params.id)
+  const client = database.clients.find((client) => client.id === id)
+
+  if (!client) {
+    return response.status(404).send('Client not found')
+  }
+
+  const order = { ...request.body, clientId: id }
+  database.orders.push(order)
+  response.send(order)
 })
 
 // 3. Supprimer un order specifique
@@ -133,11 +181,6 @@ app.delete('/orders/:id', (request, response) => {
   const index = database.orders.findIndex((order) => order.id === id)
   database.orders.splice(index, 1)
   response.send(order)
-})
-
-app.post('/clients', bodyParser, (request, response) => {
-  database.clients.push(request.body)
-  response.send('Création effectuée avec succès')
 })
 
 //La liste des clients
@@ -163,3 +206,10 @@ function bodyParser(request, response, next) {
     }
   })
 }
+
+function generateRandomId(limit = 1000) {
+  return Math.floor(Math.random() * limit) + 1
+}
+// Modifer un client
+// - Créer une route PATCH pour modifier partiellement un client
+// - Créer un order pour un client spécifique
