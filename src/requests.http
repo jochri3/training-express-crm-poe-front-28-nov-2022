@@ -18,3 +18,20 @@ GET http://localhost:3000/orders/2
 DELETE http://localhost:3000/clients/1
 ### Delete order
 DELETE http://localhost:3000/orders/1
+
+
+### Create client
+POST http://localhost:3000/clients
+Content-Type: application/json
+
+{
+      "companyName": "Facebook",
+      "firstName": "Mark",
+      "lastName": "Zukerberg",
+      "email": "mark.zuk@fabook.us",
+      "phoneNumber": "+15784574845",
+      "address": "Californie",
+      "zipCode": "100010",
+      "country": "USA",
+      "state": 0
+}

@@ -54,6 +54,7 @@ const database = {
 }
 
 const app = express()
+// app.use(bodyParser)
 
 app.get('/clients', (_, response) => {
   response.send(database.clients)
@@ -134,9 +135,31 @@ app.delete('/orders/:id', (request, response) => {
   response.send(order)
 })
 
+app.post('/clients', bodyParser, (request, response) => {
+  database.clients.push(request.body)
+  response.send('Création effectuée avec succès')
+})
+
 //La liste des clients
 const PORT = 3000
 
 app.listen(PORT, () => {
   console.log(`Le serveur écoute sur le port ${PORT}!!!!`)
 })
+
+function bodyParser(request, response, next) {
+  let body = ''
+  request.on('data', (chunk) => {
+    body += chunk.toString()
+  })
+
+  request.on('end', () => {
+    try {
+      const data = JSON.parse(body)
+      request.body = data
+      next()
+    } catch (e) {
+      response.status(400).send(`Erreur survenue${e}`)
+    }
+  })
+}
