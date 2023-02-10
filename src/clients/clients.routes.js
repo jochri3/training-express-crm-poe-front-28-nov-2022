@@ -3,11 +3,13 @@ const { database } = require('../database.js')
 const { validateClient } = require('./middlewares/validate-client.middleware')
 const { bodyParser } = require('../middlewares/body-parser')
 const { generateRandomId } = require('../utils/generate-random-id')
+const { Pool } = require('../pool')
 
 const clientsRouter = express.Router()
 
-clientsRouter.get('/', (_, response) => {
-  response.send(database.clients)
+clientsRouter.get('/', async (_, response) => {
+  const { rows } = await Pool.query('SELECT * FROM clients')
+  response.send(rows)
 })
 
 clientsRouter.get('/:id', validateClient, (request, response) => {
