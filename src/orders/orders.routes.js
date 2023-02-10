@@ -4,16 +4,16 @@ const { validateOrder } = require('./middlewares/validate-orders.middleware')
 
 const ordersRouter = express.Router()
 
-ordersRouter.get('/orders', (_, response) => {
+ordersRouter.get('/', (_, response) => {
   response.send(database.orders)
 })
 
-ordersRouter.get('/orders/:id', validateOrder, (request, response) => {
+ordersRouter.get('/:id', validateOrder, (request, response) => {
   const order = request.order
   response.send(order)
 })
 
-ordersRouter.delete('/orders/:id', validateOrder, (request, response) => {
+ordersRouter.delete('/:id', validateOrder, (request, response) => {
   const order = request.order
   const orderId = order.id
   const index = database.orders.findIndex((order) => order.id === orderId)

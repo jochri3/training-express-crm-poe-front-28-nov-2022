@@ -4,18 +4,18 @@ const { validateClient } = require('./middlewares/validate-client.middleware')
 const { bodyParser } = require('../middlewares/body-parser')
 const { generateRandomId } = require('../utils/generate-random-id')
 
-const clientRouter = express.Router()
+const clientsRouter = express.Router()
 
-clientRouter.get('/clients', (_, response) => {
+clientsRouter.get('/', (_, response) => {
   response.send(database.clients)
 })
 
-clientRouter.get('/clients/:id', validateClient, (request, response) => {
+clientsRouter.get('/:id', validateClient, (request, response) => {
   const client = request.client
   response.send(client)
 })
 
-clientRouter.get('/clients/:id/orders', validateClient, (request, response) => {
+clientsRouter.get('/:id/orders', validateClient, (request, response) => {
   const client = request.client
   const orders = database.orders.filter((order) => order.clientId === client.id)
   response.send(orders)
@@ -23,7 +23,7 @@ clientRouter.get('/clients/:id/orders', validateClient, (request, response) => {
 
 // 2. Supprimer un client ainsi que tous les orders
 
-clientRouter.delete('/clients/:id', validateClient, (request, response) => {
+clientsRouter.delete('/:id', validateClient, (request, response) => {
   const client = request.client
   const clientId = request.client.id
 
@@ -35,29 +35,24 @@ clientRouter.delete('/clients/:id', validateClient, (request, response) => {
   response.send(client)
 })
 
-clientRouter.post('/clients', bodyParser, (request, response) => {
+clientsRouter.post('/', bodyParser, (request, response) => {
   const data = { ...request.body, id: generateRandomId() }
   database.clients.push(data)
   response.send('Création effectuée avec succès')
 })
 
-clientRouter.patch(
-  '/clients/:id',
-  bodyParser,
-  validateClient,
-  (request, response) => {
-    const client = request.client
+clientsRouter.patch('/:id', bodyParser, validateClient, (request, response) => {
+  const client = request.client
 
-    for (const attr in request.body) {
-      client[attr] = request.body[attr]
-    }
+  for (const attr in request.body) {
+    client[attr] = request.body[attr]
+  }
 
-    response.send(client)
-  },
-)
+  response.send(client)
+})
 
-clientRouter.post(
-  '/clients/:id/orders',
+clientsRouter.post(
+  '/:id/orders',
   bodyParser,
   validateClient,
   (request, response) => {
@@ -69,4 +64,4 @@ clientRouter.post(
   },
 )
 
-module.exports.clientRouter = clientRouter
+module.exports.clientsRouter = clientsRouter
