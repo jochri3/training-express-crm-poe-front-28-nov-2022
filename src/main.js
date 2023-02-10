@@ -6,6 +6,7 @@ const { Pool } = require('./pool')
 require('dotenv').config()
 
 const app = express()
+app.use(express.json())
 app.use('/clients', clientsRouter)
 app.use('/orders', ordersRouter)
 
