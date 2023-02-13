@@ -4,19 +4,15 @@ const { Pool } = require('../pool')
 const {
   validateClientsBody,
 } = require('./middlewares/validate-body.middleware')
+const clientsController = require('./clients.controller')
 
 const clientsRouter = express.Router()
 
-clientsRouter.get('/', async (_, response) => {
-  const { rows } = await Pool.query('SELECT * FROM clients')
-  response.send(rows)
-})
+clientsRouter.get('/', clientsController.findAll)
 
-clientsRouter.get('/:id' /*, validateClient*/, async (request, response) => {
-  const id = request.params.id
-  const { rows } = await Pool.query('SELECT * FROM clients WHERE id=$1', [id])
-  response.send(rows[0])
-})
+clientsRouter.get('/:id', clientsController.findOne)
+
+clientsRouter.post('/', validateClientsBody, clientsController.create)
 
 clientsRouter.get(
   '/:id/orders' /*, validateClient*/,
@@ -51,37 +47,6 @@ clientsRouter.delete('/:id' /*, validateClient*/, async (request, response) => {
   )
 
   return response.send(rows[0])
-})
-
-clientsRouter.post('/', validateClientsBody, async ({ body }, response) => {
-  const {
-    companyName,
-    firstName,
-    lastName,
-    email,
-    phoneNumber,
-    address,
-    zipCode,
-    country,
-    state,
-  } = body
-  const { rows } = await Pool.query(
-    `INSERT INTO clients(company_name,first_name,last_name,email,phone_number,address,zip_code,country,state) 
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
-    [
-      companyName,
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      address,
-      zipCode,
-      country,
-      state,
-    ],
-  )
-
-  response.send(rows[0])
 })
 
 clientsRouter.put('/:id', async ({ body, params }, response) => {

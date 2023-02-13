@@ -41,13 +41,13 @@ POST http://localhost:3000/clients
 Content-Type: application/json
 
 {
-      "companyName": "Instagram",
-      "firstName": "Jet",
-      "lastName": "Li",
-      "email": "jet.li@ig.us",
-      "phoneNumber": "+15784574849",
-      "address": "Californie",
-      "zipCode": "1001110",
+      "companyName": "Ausy",
+      "firstName": "Thomas",
+      "lastName": "Da Silva",
+      "email": "thomas.dasilva@ig.us",
+      "phoneNumber": "+1666374849",
+      "address": "New York",
+      "zipCode": "10018301",
       "country": "USA",
       "state": 1
 }
