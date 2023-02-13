@@ -13,8 +13,8 @@ POST http://localhost:3000/orders
 Content-Type: application/json
 
 {
-    "typePresta": "Coaching long",
-    "designation": "React Frontend architect",
+    "typePresta": "Coaching tres long",
+    "designation": "Angular Frontend architect",
     "clientId": 4,
     "nbDays": 22,
     "unitPrice": 225,
