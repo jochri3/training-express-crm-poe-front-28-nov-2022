@@ -90,3 +90,7 @@ Content-Type: application/json
     "totalWithTaxe": 21600,
     "state": 0
   }
+
+
+### Test errors
+GET http://localhost:3000
