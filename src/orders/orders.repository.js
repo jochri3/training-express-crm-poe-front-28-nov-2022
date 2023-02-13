@@ -41,10 +41,18 @@ async function update(id, updateOrderData) {
   return rows[0]
 }
 
+async function findByClient(id) {
+  const { rows } = await Pool.query(`SELECT * FROM orders WHERE client_id=$1`, [
+    id,
+  ])
+  return rows
+}
+
 module.exports = {
   findAll,
   findOne,
   remove,
   create,
   update,
+  findByClient,
 }

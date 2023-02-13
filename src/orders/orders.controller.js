@@ -1,18 +1,17 @@
-const ordersRepository = require('./orders.repository')
 const ordersService = require('./orders.service')
 
 async function findAll(_, res) {
-  const orders = await ordersRepository.findAll()
+  const orders = await ordersService.findAll()
   res.send(orders)
 }
 
 async function findOne({ params: { id } }, res) {
-  const order = await ordersRepository.findOne(id)
+  const order = await ordersService.findOne(id)
   res.send(order)
 }
 
 async function remove({ params: { id } }, res) {
-  const order = await ordersRepository.remove(id)
+  const order = await ordersService.remove(id)
   res.send(order)
 }
 
@@ -26,7 +25,7 @@ async function create({ body }, res) {
 }
 
 async function update({ body, params: { id } }, res) {
-  const order = await ordersRepository.update(id, body)
+  const order = await ordersService.update(id, body)
   res.send(order)
 }
 

@@ -114,6 +114,16 @@ async function getOrders(id) {
   return rows
 }
 
+async function findOneBy(filerColumn) {
+  const column = Object.keys(filerColumn)[0]
+  const value = Object.values(filerColumn)[0]
+  const { rows } = await Pool.query(
+    `SELECT * FROM clients WHERE ${column}=$1`,
+    [value],
+  )
+  return rows[0]
+}
+
 module.exports = {
   findAll,
   findOne,
@@ -121,4 +131,5 @@ module.exports = {
   update,
   remove,
   getOrders,
+  findOneBy,
 }

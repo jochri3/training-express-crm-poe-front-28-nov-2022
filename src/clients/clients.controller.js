@@ -7,17 +7,24 @@ async function findAll(_, res) {
 
 async function findOne(req, res) {
   const id = req.params.id
+  let { includeOrders } = req.query
+  includeOrders = includeOrders || ''
   try {
-    const client = await clientsService.findOne(id)
+    const client = await clientsService.findOne(id, includeOrders)
+
     res.send(client)
   } catch (error) {
     res.status(404).send(error.message)
   }
 }
 
-async function create(req, res) {
-  const client = await clientsService.create(req.body)
-  res.send(client)
+async function create(req, res, next) {
+  try {
+    const client = await clientsService.create(req.body)
+    res.send(client)
+  } catch (error) {
+    next(error)
+  }
 }
 
 async function update(req, res) {
