@@ -1,4 +1,3 @@
-const clientsRepository = require('./clients.repository')
 const clientsService = require('./clients.service')
 
 async function findAll(_, res) {
@@ -17,24 +16,24 @@ async function findOne(req, res) {
 }
 
 async function create(req, res) {
-  const client = await clientsRepository.create(req.body)
+  const client = await clientsService.create(req.body)
   res.send(client)
 }
 
 async function update(req, res) {
   const id = req.params.id
-  const client = await clientsRepository.update(id, req.body)
+  const client = await clientsService.update(id, req.body)
   res.send(client)
 }
 
 async function remove(req, res) {
   const id = req.params.id
-  const client = await clientsRepository.remove(id)
+  const client = await clientsService.remove(id)
   res.send(client)
 }
 
 async function getOrders({ params: { id } }, res) {
-  const orders = await clientsRepository.getOrders(id)
+  const orders = await clientsService.getOrders(id)
   res.send(orders)
 }
 

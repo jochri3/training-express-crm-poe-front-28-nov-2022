@@ -7,6 +7,10 @@ async function create(createOrderData) {
   return ordersRepository.create(createOrderData)
 }
 
+//  Terminer l'implémentation du service
+// Non trouvé 404
+// Erreur généric 400
+
 module.exports = {
   create,
 }
