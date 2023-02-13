@@ -1,24 +1,35 @@
 const express = require('express')
-const { database } = require('../database')
-const { validateOrder } = require('./middlewares/validate-orders.middleware')
+const { Pool } = require('../pool')
+
+// const { database } = require('../database')
+// const { validateOrder } = require('./middlewares/validate-orders.middleware')
 
 const ordersRouter = express.Router()
 
-ordersRouter.get('/', (_, response) => {
-  response.send(database.orders)
+ordersRouter.get('/', async (_, response) => {
+  const { rows } = await Pool.query('SELECT * FROM orders')
+  response.send(rows)
 })
 
-ordersRouter.get('/:id', validateOrder, (request, response) => {
-  const order = request.order
-  response.send(order)
-})
+ordersRouter.get(
+  '/:id',
+  /*validateOrder,*/ async (request, response) => {
+    const id = request.params.id
+    const { rows } = await Pool.query('SELECT * FROM orders WHERE id=$1', [id])
+    response.send(rows[0])
+  },
+)
 
-ordersRouter.delete('/:id', validateOrder, (request, response) => {
-  const order = request.order
-  const orderId = order.id
-  const index = database.orders.findIndex((order) => order.id === orderId)
-  database.orders.splice(index, 1)
-  response.send(order)
-})
+ordersRouter.delete(
+  '/:id',
+  /*validateOrder,*/ async (request, response) => {
+    const id = request.params.id
+    const { rows } = await Pool.query(
+      'DELETE FROM orders WHERE id=$1 RETURNING *',
+      [id],
+    )
+    response.send(rows[0])
+  },
+)
 
 module.exports.ordersRouter = ordersRouter
