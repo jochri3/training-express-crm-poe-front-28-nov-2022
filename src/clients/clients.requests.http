@@ -3,7 +3,7 @@
 GET http://localhost:3000/clients
 
 ### Retrieve a client by ID
-GET http://localhost:3000/clients/4
+GET http://localhost:3000/clients/52
 
 ### Get orders
 GET http://localhost:3000/clients/4/orders

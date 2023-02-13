@@ -1,14 +1,19 @@
 const clientsRepository = require('./clients.repository')
+const clientsService = require('./clients.service')
 
 async function findAll(_, res) {
-  const clients = await clientsRepository.findAll()
+  const clients = await clientsService.findAll()
   res.send(clients)
 }
 
 async function findOne(req, res) {
   const id = req.params.id
-  const client = await clientsRepository.findOne(id)
-  res.send(client)
+  try {
+    const client = await clientsService.findOne(id)
+    res.send(client)
+  } catch (error) {
+    res.status(404).send(error.message)
+  }
 }
 
 async function create(req, res) {
