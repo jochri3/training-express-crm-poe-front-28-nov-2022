@@ -16,8 +16,28 @@ async function create(req, res) {
   res.send(client)
 }
 
+async function update(req, res) {
+  const id = req.params.id
+  const client = await clientsRepository.update(id, req.body)
+  res.send(client)
+}
+
+async function remove(req, res) {
+  const id = req.params.id
+  const client = await clientsRepository.remove(id)
+  res.send(client)
+}
+
+async function getOrders({ params: { id } }, res) {
+  const orders = await clientsRepository.getOrders(id)
+  res.send(orders)
+}
+
 module.exports = {
   findAll,
   findOne,
   create,
+  update,
+  remove,
+  getOrders,
 }

@@ -1,8 +1,8 @@
-const { ClientSchema } = require('../clients.schema')
+const { OrderSchema } = require('../orders.schema')
 
-function validateClientsBody(request, response, next) {
+function validateOrdersBody(request, response, next) {
   for (const attr in request.body) {
-    if (!ClientSchema[attr]) {
+    if (!OrderSchema[attr]) {
       delete request.body[attr]
     }
   }
@@ -12,14 +12,14 @@ function validateClientsBody(request, response, next) {
     status: null,
   }
 
-  for (const attr in ClientSchema) {
+  for (const attr in OrderSchema) {
     if (
       !request.body[attr] ||
-      typeof request.body[attr] !== ClientSchema[attr]
+      typeof request.body[attr] !== OrderSchema[attr]
     ) {
       error.errors[
         attr
-      ] = `${attr} cannot be empty or should be a ${ClientSchema[attr]}`
+      ] = `${attr} cannot be empty or should be a ${OrderSchema[attr]}`
     }
   }
   const errorLength = Object.keys(error.errors).length
@@ -30,4 +30,4 @@ function validateClientsBody(request, response, next) {
   next()
 }
 
-module.exports.validateClientsBody = validateClientsBody
+module.exports.validateOrdersBody = validateOrdersBody

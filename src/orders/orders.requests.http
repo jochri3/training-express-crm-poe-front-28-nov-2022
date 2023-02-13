@@ -1,0 +1,44 @@
+
+
+
+### Retrieve all orders
+GET http://localhost:3000/orders
+
+### Retrieve an order by id
+GET http://localhost:3000/orders/2
+
+
+### Create order
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+    "typePresta": "Coaching long",
+    "designation": "React Frontend architect",
+    "clientId": 4,
+    "nbDays": 22,
+    "unitPrice": 225,
+    "state": 1
+}
+
+
+### Update order
+PUT http://localhost:3000/orders/7
+Content-Type: application/json
+
+{
+    "typePresta": "Coaching/Dev",
+    "designation": "React.js Frontend",
+    "clientId": 4,
+    "nbDays": 22,
+    "unitPrice": 225,
+    "state": 2
+  }
+
+### Delete Order
+DELETE http://localhost:3000/orders/7
+
+
+
+
+
