@@ -15,7 +15,7 @@ GET http://localhost:3000/orders/2
 
 
 ### Delete client
-DELETE http://localhost:3000/clients/1
+DELETE http://localhost:3000/clients/16
 ### Delete order
 DELETE http://localhost:3000/orders/1
 
@@ -45,11 +45,11 @@ Content-Type: application/json
       "firstName": "Jet",
       "lastName": "Li",
       "email": "jet.li@ig.us",
-      "phoneNumber": "+15784574845",
+      "phoneNumber": "+15784574849",
       "address": "Californie",
       "zipCode": "1001110",
       "country": "USA",
-      "state": 0
+      "state": 1
 }
 
 ### Partial update

@@ -34,6 +34,13 @@ clientsRouter.get(
 
 clientsRouter.delete('/:id' /*, validateClient*/, async (request, response) => {
   const id = request.params.id
+  await Pool.query(
+    `
+      DELETE FROM clients
+      WHERE client_id=$1
+    `,
+    [id],
+  )
   const { rows } = await Pool.query(
     `
       DELETE FROM clients
