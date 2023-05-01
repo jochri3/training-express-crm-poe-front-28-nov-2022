@@ -1,17 +1,33 @@
 const express = require('express')
+const compression = require('compression')
 const { clientsRouter } = require('./clients/clients.routes')
 const { ordersRouter } = require('./orders/orders.routes')
 const cors = require('cors')
 const { Pool } = require('./pool')
+const morganMiddleware = require('./middlewares/morgan.middleware')
+
+// The morgan middleware does not need this.
+// This is for a manual log
+const logger = require('./utils/logger')
 
 require('dotenv').config()
 
 const app = express()
+app.use(morganMiddleware)
 app.use(express.json())
 app.use(cors())
 app.use('/clients', clientsRouter)
 app.use('/orders', ordersRouter)
+app.use(compression())
 app.use(errorHandler)
+
+app.get('/api/status', (_, res) => {
+  logger.info('Checking the API status: Everything is OK')
+  res.status(200).send({
+    status: 'UP',
+    message: 'The API is up and running!',
+  })
+})
 
 const PORT = 3000
 
@@ -23,16 +39,17 @@ Pool.connect({
   password: process.env.DB_PASSWORD,
 })
   .then(() => {
-    console.log('Connexion à Postgres établie avec succès.')
+    logger.info('Connexion à Postgres établie avec succès.')
     app.listen(PORT, () => {
-      console.log(`Le serveur écoute sur le port ${PORT}.`)
+      logger.info(`Le serveur écoute sur le port ${PORT}.`)
     })
   })
   .catch((err) => {
-    console.error(err)
+    logger.error(err)
   })
 
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
   res.status(500).send({ error: err.message, status: 500 })
+  logger.error(err)
 }
