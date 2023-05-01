@@ -6,8 +6,6 @@ const cors = require('cors')
 const { Pool } = require('./pool')
 const morganMiddleware = require('./middlewares/morgan.middleware')
 
-// The morgan middleware does not need this.
-// This is for a manual log
 const logger = require('./utils/logger')
 
 require('dotenv').config()

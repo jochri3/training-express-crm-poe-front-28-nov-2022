@@ -1,32 +1,23 @@
 const { OrderSchema } = require('../orders.schema')
+const { validateAgainstSchema } = require('./validateAgainstSchema')
 
 function validateOrdersBody(request, response, next) {
+  const cleanedData = {}
   for (const attr in request.body) {
-    if (!OrderSchema[attr]) {
-      delete request.body[attr]
+    if (OrderSchema[attr]) {
+      cleanedData[attr] = request.body[attr]
     }
   }
 
-  const error = {
-    errors: {},
-    status: null,
-  }
+  const validationResult = validateAgainstSchema(cleanedData, OrderSchema)
+  const errorLength = Object.keys(validationResult.errors).length
 
-  for (const attr in OrderSchema) {
-    if (
-      !request.body[attr] ||
-      typeof request.body[attr] !== OrderSchema[attr]
-    ) {
-      error.errors[
-        attr
-      ] = `${attr} cannot be empty or should be a ${OrderSchema[attr]}`
-    }
-  }
-  const errorLength = Object.keys(error.errors).length
   if (errorLength) {
-    error.status = 422
-    return response.status(422).send(error)
+    validationResult.status = 422
+    return response.status(422).send(validationResult)
   }
+
+  request.body = cleanedData
   next()
 }
 
